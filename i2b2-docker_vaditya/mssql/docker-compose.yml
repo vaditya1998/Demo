@@ -1,0 +1,90 @@
+
+services:
+  i2b2-webclient:
+    image: i2b2/i2b2-webclient:${I2B2_WEBCLIENT_TAG}
+    container_name: i2b2-webclient
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+      - "444:443"
+    command: /run-httpd.sh localhost
+    depends_on:
+      - i2b2-core-server
+    # volumes:
+    #   - ../assets/logo.png:/var/www/html/webclient/assets/images/logo.png
+    #   - ../assets/login.html:/var/www/html/webclient//js-i2b2/cells/PM/assets/login.html
+    #   - ../assets/main_display.html:/var/www/html/webclient/assets/main_display.html
+    networks:
+      - i2b2-net
+
+  i2b2-core-server:
+    image: adityapersistent/demo_adi:i2b2-core-server_CI_Core #/:i2b2-core-server_master
+    container_name: i2b2-core-server
+    restart: unless-stopped
+    environment:
+
+      - DS_TYPE=${I2B2_DS_TYPE}
+      - DS_PORT=${I2B2_DS_PORT}
+      - DS_IP=${I2B2_DS_IP}
+      
+      - DS_CRC_IP=${I2B2_DS_CRC_IP}
+      - DS_CRC_PORT=${I2B2_DS_CRC_PORT}
+      - DS_CRC_USER=${I2B2_DS_CRC_USER}
+      - DS_CRC_PASS=${I2B2_DS_CRC_PASS}
+      - DS_CRC_DB=${I2B2_DS_CRC_DB}
+
+      - DS_ONT_IP=${I2B2_DS_ONT_IP}
+      - DS_ONT_PORT=${I2B2_DS_ONT_PORT}
+      - DS_ONT_USER=${I2B2_DS_ONT_USER}
+      - DS_ONT_PASS=${I2B2_DS_ONT_PASS}
+      - DS_ONT_DB=${I2B2_DS_ONT_DB}
+
+      - DS_PM_IP=${I2B2_DS_PM_IP}
+      - DS_PM_PORT=${I2B2_DS_PM_PORT}
+      - DS_PM_USER=${I2B2_DS_PM_USER}
+      - DS_PM_PASS=${I2B2_DS_PM_PASS}
+      - DS_PM_DB=${I2B2_DS_PM_DB}
+
+      - DS_HIVE_IP=${I2B2_DS_HIVE_IP}
+      - DS_HIVE_PORT=${I2B2_DS_HIVE_PORT}
+      - DS_HIVE_USER=${I2B2_DS_HIVE_USER}
+      - DS_HIVE_PASS=${I2B2_DS_HIVE_PASS}
+      - DS_HIVE_DB=${I2B2_DS_HIVE_DB}
+
+      - DS_WD_IP=${I2B2_DS_WD_IP}
+      - DS_WD_PORT=${I2B2_DS_WD_PORT}
+      - DS_WD_USER=${I2B2_DS_WD_USER}
+      - DS_WD_PASS=${I2B2_DS_WD_PASS}
+      - DS_WD_DB=${I2B2_DS_WD_DB}
+
+      - DS_IM_IP=${I2B2_DS_IM_IP}
+      - DS_IM_PORT=${I2B2_DS_IM_PORT}
+      - DS_IM_USER=${I2B2_DS_IM_USER}
+      - DS_IM_PASS=${I2B2_DS_IM_PASS}
+      - DS_IM_DB=${I2B2_DS_IM_DB}      
+
+    networks:
+      - i2b2-net
+    # volumes:
+    #   - ./custom_datasource.txt:/opt/jboss/wildfly/customization/custom_datasource.txt
+    depends_on:
+      - i2b2-data-mssql
+
+
+  i2b2-data-mssql:
+    image: adityapersistent/demo_adi:i2b2-data-mssql_master #/:i2b2-data-mssql_master
+    container_name: i2b2-data-mssql
+    restart: unless-stopped
+    user: root
+    # ports:
+    #  - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${I2B2_MSSQL_SA_PASSWORD}
+    networks:
+      - i2b2-net
+
+networks:
+  i2b2-net:
+    name: i2b2-net
+    driver: bridge
