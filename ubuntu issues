@@ -24,3 +24,22 @@ apt-get install -y postgresql postgresql-contrib ant
 
 # Clean up apt cache to reduce image size
 rm -rf /var/lib/apt/lists/*
+
+
+A140_SetDBlookup_admin
+08:31:13,207 ERROR [edu.harvard.i2b2.workplace.ws.WorkplaceService] (default task-2) er.jobException is PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO dbo.work_db_lookup (c_domain_id, c_project_path, c_owner_id, c_db_fullschema, c_db_datasource, c_db_servertype, c_db_nicename, c_db_tooltip, c_comment, c_entry_date, c_change_date, c_status_cd) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)]; SQL state [null]; error code [0]; The conversion from UNKNOWN to UNKNOWN is unsupported.
+
+
+
+
+08:25:07,559 ERROR [edu.harvard.i2b2.pm.delegate.ServicesHandler] (Thread-257) Access Denied for demo
+08:25:07,560 ERROR [stderr] (Thread-257) edu.harvard.i2b2.common.exception.I2B2DAOException: Access Denied for demo
+08:25:07,560 ERROR [stderr] (Thread-257)        at edu.harvard.i2b2.pm.dao.PMDbDao.setUser(PMDbDao.java:858)
+08:25:07,560 ERROR [stderr] (Thread-257)        at edu.harvard.i2b2.pm.delegate.ServicesHandler.runSetUser(ServicesHandler.java:1765)
+08:25:07,560 ERROR [stderr] (Thread-257)        at edu.harvard.i2b2.pm.delegate.ServicesHandler.execute(ServicesHandler.java:505)
+08:25:07,560 ERROR [stderr] (Thread-257)        at edu.harvard.i2b2.pm.ws.ExecutorRunnable.run(ExecutorRunnable.java:81)
+08:25:07,560 ERROR [stderr] (Thread-257)        at java.base/java.lang.Thread.run(Thread.java:1583)
+08:25:19,866 ERROR [edu.harvard.i2b2.ontology.ws.OntologyService] (default task-2) er.jobException is PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO dbo.ont_db_lookup (c_domain_id, c_project_path, c_owner_id, c_db_fullschema, c_db_datasource, c_db_servertype, c_db_nicename, c_db_tooltip, c_comment, c_entry_date, c_change_date, c_status_cd) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)]; SQL state [null]; error code [0]; The conversion from UNKNOWN to UNKNOWN is unsupported.
+
+SetDBlookup_admin
+
