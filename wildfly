@@ -5,11 +5,14 @@ ENV TZ=America/New_York
 
 # Use Azure mirror (fast on GitHub Actions)
 RUN sed -i 's|http://archive.ubuntu.com|http://azure.archive.ubuntu.com|g' /etc/apt/sources.list && \
-    sed -i 's|http://security.ubuntu.com|http://azure.archive.ubuntu.com|g' /etc/apt/sources.list
+    sed -i 's|http://security.ubuntu.com|http://azure.archive.ubuntu.com|g' /etc/apt/sources.list && \
+    echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4 && \
+    echo 'Acquire::Retries "2";' > /etc/apt/apt.conf.d/80-retries && \
+    echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/99no-translations && \
+    apt-get update
 
 # Install everything in one layer (faster + smaller)
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
         tzdata \
         openjdk-21-jdk \
         curl \
